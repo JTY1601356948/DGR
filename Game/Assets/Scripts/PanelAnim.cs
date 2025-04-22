@@ -40,17 +40,22 @@ public class PanelAnim : MonoBehaviour
 
     private void Update()
     {
-        // 左键点击触发显示动画
-        if (Input.GetKeyDown(KeyCode.B)&&!open)
+        // 按B键切换面板状态
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            open = true;
-            StartCoroutine(ShowPanel(panel));
-        }
-        // 右键点击触发隐藏动画
-        else if (Input.GetKeyDown(KeyCode.N)&&open)
-        {
-            open= false;
-            StartCoroutine(HidePanel(panel));
+            // 切换状态
+            open = !open;
+
+            // 根据当前状态启动对应协程
+            if (open)
+            {
+                StartCoroutine(ShowPanel(panel));
+            }
+            else
+            {
+                StartCoroutine(HidePanel(panel));
+            }
         }
     }
+
 }
