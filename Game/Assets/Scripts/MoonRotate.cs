@@ -3,7 +3,7 @@ using UnityEngine;
 public class MoonRotate : MonoBehaviour
 {
     // 旋转速度（度/秒）
-    public float rotationSpeed = 180f;
+    public float rotationSpeed = -0.375f;
 
     void Update()
     {
