@@ -38,30 +38,47 @@ public class TimeLog : MonoBehaviour
 
     void shike()
     {
-        if (hours >= 19 && hours < 21)
-            shiKe = "戌时";
-        else if (hours >= 21 && hours < 23)
-            shiKe = "亥时";
-        else if (hours >= 23 || hours < 1)
-            shiKe = "子时";
-        else if (hours >= 1 && hours < 3)
-            shiKe = "丑时";
-        else if (hours >= 3 && hours < 5)
-            shiKe = "寅时";
-        else if (hours >= 5 && hours < 7)
-            shiKe = "卯时​";
-        else if (hours >= 7 && hours < 9)
-            shiKe = "​​辰时​​";
-        else if (hours >= 9 && hours < 11)
-            shiKe = "巳时​";
-        else if (hours >= 11 && hours < 13)
-            shiKe = "​​午时​​";
-        else if (hours >= 13 && hours < 15)
-            shiKe = "​​未时​";
-        else if (hours >= 15 && hours < 17)
-            shiKe = "​​申时​";
-        else if (hours >= 17 && hours < 19)
-            shiKe = "酉时​";
-
+        switch (hours)
+        {
+            case int h when h >= 19 && h < 21:
+                shiKe = "戌时";
+                break;
+            case int h when h >= 21 && h < 23:
+                shiKe = "亥时";
+                break;
+            case int h when h >= 23 || h < 1:
+                shiKe = "子时";
+                break;
+            case int h when h >= 1 && h < 3:
+                shiKe = "丑时";
+                break;
+            case int h when h >= 3 && h < 5:
+                shiKe = "寅时";
+                break;
+            case int h when h >= 5 && h < 7:
+                shiKe = "卯时";
+                break;
+            case int h when h >= 7 && h < 9:
+                shiKe = "辰时";
+                break;
+            case int h when h >= 9 && h < 11:
+                shiKe = "巳时";
+                break;
+            case int h when h >= 11 && h < 13:
+                shiKe = "午时";
+                break;
+            case int h when h >= 13 && h < 15:
+                shiKe = "未时";
+                break;
+            case int h when h >= 15 && h < 17:
+                shiKe = "申时";
+                break;
+            case int h when h >= 17 && h < 19:
+                shiKe = "酉时";
+                break;
+            default:
+                shiKe = "未知时辰";
+                break;
+        }
     }
 }

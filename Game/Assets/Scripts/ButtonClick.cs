@@ -4,21 +4,23 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum onButton
-{
-    ZhongJi,
-    QinJi
-}
+//public enum onButton
+//{
+//    ZhongJi,
+//    QinJi
+//}
 public class ButtonClick : MonoBehaviour
 {
     public Button ZhongJi;
     public Button QinJi;
-    public TimeLog timeLog;
+    private TimeLog timeLog;
     private float resetTimer = 0f;
     private bool isResetting = false;
+    private int winNum = 0;
 
     public GameObject Win;
     public GameObject Lose;
+    public GameObject tiShiLuo;
     private List<onButton> playerSequence = new List<onButton>();
 
     public onButton[] LuoGen = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.ZhongJi };
@@ -29,6 +31,7 @@ public class ButtonClick : MonoBehaviour
         QinJi.onClick.AddListener(OnButtonQin);
         Win.SetActive(false);
         Lose.SetActive(false);
+        tiShiLuo.SetActive(false);
     }
     void Update()
     {
@@ -42,6 +45,7 @@ public class ButtonClick : MonoBehaviour
                 resetTimer = 0f;
             }
         }
+        ValidateSequence();
     }
 
     void OnButtonZhong()
@@ -63,8 +67,20 @@ public class ButtonClick : MonoBehaviour
 
     void ValidateSequence()
     {
-        if(0<=Time.time&&Time.time<=30)
+        if (timeLog == null)
         {
+            Debug.LogError("TimeLog 未绑定！请在 Inspector 中赋值。");
+            return;
+        }
+
+        // 判断时间是否在 18:45 ~ 19:15 之间
+        float totalMinutes = timeLog.hours * 60 + timeLog.minutes;
+        bool isTimeInRange = totalMinutes >= 1125 && totalMinutes <= 1155; // 18:45=1125, 19:15=1155
+
+        if (isTimeInRange)
+        {
+            tiShiLuo.SetActive(true);
+
             if (playerSequence.Count == LuoGen.Length)
             {
                 bool isCorrect = true;
@@ -80,9 +96,9 @@ public class ButtonClick : MonoBehaviour
                 if (isCorrect)
                 {
                     Debug.Log("验证成功！");
+                    winNum++;
                     Win.SetActive(true);
                     isResetting = true;
-
                 }
                 else
                 {
@@ -91,9 +107,11 @@ public class ButtonClick : MonoBehaviour
                     isResetting = true;
                 }
             }
-            
         }
-        
+        else
+        {
+            tiShiLuo.SetActive(false);
+        }
     }
 
     void ResetGame()

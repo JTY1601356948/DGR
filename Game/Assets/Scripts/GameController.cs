@@ -1,0 +1,158 @@
+using System;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public enum onButton
+{
+    ZhongJi,
+    QinJi
+}
+public class GameController : MonoBehaviour
+{
+    // TimeLog 相关变量
+    [Header("时间显示")]
+    public TMP_Text dialogText;
+    public TMP_Text shichen;
+    public int minutes = 45;
+    public int hours = 18;
+    private string shiKe;
+
+    // ButtonClick 相关变量
+    [Header("按钮和弹窗")]
+    public Button ZhongJi;
+    public Button QinJi;
+    public GameObject Win;
+    public GameObject Lose;
+    public GameObject tiShiLuo;
+
+    [Header("游戏逻辑")]
+    private List<onButton> playerSequence = new List<onButton>();
+    private float resetTimer = 0f;
+    private bool isResetting = false;
+    private int winNum = 0;
+    private onButton[] LuoGen = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.ZhongJi };
+
+    void Start()
+    {
+        // 初始化按钮事件
+        ZhongJi.onClick.AddListener(OnButtonZhong);
+        QinJi.onClick.AddListener(OnButtonQin);
+
+        // 初始化弹窗
+        Win.SetActive(false);
+        Lose.SetActive(false);
+        tiShiLuo.SetActive(false);
+    }
+
+    void Update()
+    {
+        // 时间更新逻辑
+        NowTime();
+        Shike();
+        UpdateTimeDisplay();
+
+        // 按钮验证逻辑
+        ValidateSequence();
+        HandleResetTimer();
+    }
+
+    void NowTime()
+    {
+        int intTime = (int)Time.time;
+        hours = 18 + (intTime + 45) / 60;
+        if (hours >= 24) hours -= 24;
+        minutes = (45 + intTime) % 60;
+    }
+
+    void Shike()
+    {
+        switch (hours)
+        {
+            case int h when h >= 19 && h < 21: shiKe = "戌时"; break;
+            case int h when h >= 21 && h < 23: shiKe = "亥时"; break;
+            case int h when h >= 23 || h < 1: shiKe = "子时"; break;
+            case int h when h >= 1 && h < 3: shiKe = "丑时"; break;
+            case int h when h >= 3 && h < 5: shiKe = "寅时"; break;
+            case int h when h >= 5 && h < 7: shiKe = "卯时"; break;
+            case int h when h >= 7 && h < 9: shiKe = "辰时"; break;
+            case int h when h >= 9 && h < 11: shiKe = "巳时"; break;
+            case int h when h >= 11 && h < 13: shiKe = "午时"; break;
+            case int h when h >= 13 && h < 15: shiKe = "未时"; break;
+            case int h when h >= 15 && h < 17: shiKe = "申时"; break;
+            case int h when h >= 17 && h < 19: shiKe = "酉时"; break;
+            default: shiKe = "未知时辰"; break;
+        }
+    }
+
+    void UpdateTimeDisplay()
+    {
+        dialogText.text = "更时：" + hours.ToString("D2") + ":" + minutes.ToString("D2");
+        shichen.text = "时辰：" + shiKe;
+    }
+
+    void ValidateSequence()
+    {
+        float totalMinutes = hours * 60 + minutes;
+        bool isTimeInRange = totalMinutes >= 1125 && totalMinutes <= 1155; // 18:45 ~ 19:15
+
+        tiShiLuo.SetActive(isTimeInRange);
+
+        if (isTimeInRange && playerSequence.Count == LuoGen.Length)
+        {
+            bool isCorrect = true;
+            for (int i = 0; i < LuoGen.Length; i++)
+            {
+                if (playerSequence[i] != LuoGen[i])
+                {
+                    isCorrect = false;
+                    break;
+                }
+            }
+
+            if (isCorrect)
+            {
+                Win.SetActive(true);
+                isResetting = true;
+            }
+            else
+            {
+                Lose.SetActive(true);
+                isResetting = true;
+            }
+        }
+    }
+
+    void HandleResetTimer()
+    {
+        if (isResetting)
+        {
+            resetTimer += Time.deltaTime;
+            if (resetTimer >= 2f)
+            {
+                ResetGame();
+                isResetting = false;
+                resetTimer = 0f;
+            }
+        }
+    }
+
+    void ResetGame()
+    {
+        playerSequence.Clear();
+        Win.SetActive(false);
+        Lose.SetActive(false);
+        tiShiLuo.SetActive(false);
+    }
+
+    // 按钮事件处理
+    void OnButtonZhong() => HandleButtonClick(onButton.ZhongJi);
+    void OnButtonQin() => HandleButtonClick(onButton.QinJi);
+
+    void HandleButtonClick(onButton button)
+    {
+        playerSequence.Add(button);
+        Debug.Log("当前输入序列: " + string.Join(", ", playerSequence));
+    }
+}
