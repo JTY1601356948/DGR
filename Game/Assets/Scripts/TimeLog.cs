@@ -8,8 +8,8 @@ public class TimeLog : MonoBehaviour
 
     public TMP_Text dialogText;
     public TMP_Text shichen;
-    private int minutes=45;
-    private int hours=18;
+    public int minutes=45;
+    public int hours=18;
     private string shiKe;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
