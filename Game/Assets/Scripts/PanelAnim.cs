@@ -8,6 +8,9 @@ public class PanelAnim : MonoBehaviour
     public float animationSpeed = 1f;   // 动画播放速度
     public GameObject panel;            // 要控制的面板对象
     private bool open=false;
+    public GameObject qiaozhongUI;
+   
+
 
     IEnumerator ShowPanel(GameObject gameObject)
     {
@@ -36,6 +39,12 @@ public class PanelAnim : MonoBehaviour
             timer += Time.deltaTime * animationSpeed;
             yield return null;
         }
+    }
+    private void Awake()
+    {
+        // 立即应用隐藏动画曲线的最终状态
+        panel.transform.localScale = Vector3.one * hideCurve.Evaluate(1);
+        open = false; // 确保状态同步
     }
 
     private void Update()
