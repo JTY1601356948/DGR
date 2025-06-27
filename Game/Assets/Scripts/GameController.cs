@@ -26,13 +26,22 @@ public class GameController : MonoBehaviour
     public GameObject Win;
     public GameObject Lose;
     public GameObject tiShiLuo;
+    public GameObject tiShi2;
+    public GameObject tiShi3;
+    public GameObject tiShi4;
+    public GameObject tiShi5;
 
     [Header("ÓÎÏ·Âß¼­")]
     private List<onButton> playerSequence = new List<onButton>();
     private float resetTimer = 0f;
     private bool isResetting = false;
     private int winNum = 0;
-    private onButton[] LuoGen = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.ZhongJi };
+    private onButton[] LuoGen = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.ZhongJi ,onButton.QinJi};
+    private onButton[] Gen2 = new onButton[] { onButton.QinJi, onButton.QinJi, onButton.QinJi, onButton.QinJi ,onButton.QinJi};
+    private onButton[] Gen3 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi };
+    private onButton[] Gen4 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi, onButton.QinJi };
+    private onButton[] Gen5 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi, onButton.QinJi ,onButton.QinJi};
+
 
     void Start()
     {
@@ -95,16 +104,117 @@ public class GameController : MonoBehaviour
     void ValidateSequence()
     {
         float totalMinutes = hours * 60 + minutes;
-        bool isTimeInRange = totalMinutes >= 1125 && totalMinutes <= 1155; // 18:45 ~ 19:15
+        bool isTimeInRangeLuo = totalMinutes >= 1125 && totalMinutes <= 1155; // 18:45 ~ 19:15
+        bool isTimeInRange2 = totalMinutes >= 1245 && totalMinutes <= 1275;
+        bool isTimeInRange3 = totalMinutes >= 1365 && totalMinutes <= 1395;
+        bool isTimeInRange4 = totalMinutes >= 1485 && totalMinutes <= 1515;
+        bool isTimeInRange5 = totalMinutes >= 1605 && totalMinutes <= 1635;
 
-        tiShiLuo.SetActive(isTimeInRange);
+        tiShiLuo.SetActive(isTimeInRangeLuo);
+        tiShi2.SetActive(isTimeInRange2);
+        tiShi3.SetActive(isTimeInRange3);
+        tiShi4.SetActive(isTimeInRange4);
+        tiShi5.SetActive(isTimeInRange5);
 
-        if (isTimeInRange && playerSequence.Count == LuoGen.Length)
+
+        if (isTimeInRangeLuo && playerSequence.Count == LuoGen.Length)//111
         {
             bool isCorrect = true;
             for (int i = 0; i < LuoGen.Length; i++)
             {
                 if (playerSequence[i] != LuoGen[i])
+                {
+                    isCorrect = false;
+                    break;
+                }
+            }
+
+            if (isCorrect)
+            {
+                Win.SetActive(true);
+                isResetting = true;
+            }
+            else
+            {
+                Lose.SetActive(true);
+                isResetting = true;
+            }
+        }
+        if (isTimeInRange2 && playerSequence.Count == Gen2.Length)//22222
+        {
+            bool isCorrect = true;
+            for (int i = 0; i < Gen2.Length; i++)
+            {
+                if (playerSequence[i] != Gen2[i])
+                {
+                    isCorrect = false;
+                    break;
+                }
+            }
+
+            if (isCorrect)
+            {
+                Win.SetActive(true);
+                isResetting = true;
+            }
+            else
+            {
+                Lose.SetActive(true);
+                isResetting = true;
+            }
+        }
+        if (isTimeInRange3&& playerSequence.Count == Gen3.Length)
+        {
+            bool isCorrect = true;
+            for (int i = 0; i < Gen3.Length; i++)
+            {
+                if (playerSequence[i] != Gen3[i])
+                {
+                    isCorrect = false;
+                    break;
+                }
+            }
+
+            if (isCorrect)
+            {
+                Win.SetActive(true);
+                isResetting = true;
+            }
+            else
+            {
+                Lose.SetActive(true);
+                isResetting = true;
+            }
+        }
+        if (isTimeInRange4 && playerSequence.Count == Gen4.Length)
+        {
+            bool isCorrect = true;
+            for (int i = 0; i < Gen4.Length; i++)
+            {
+                if (playerSequence[i] != Gen4[i])
+                {
+                    isCorrect = false;
+                    break;
+                }
+            }
+
+            if (isCorrect)
+            {
+                Win.SetActive(true);
+                isResetting = true;
+            }
+            else
+            {
+                Lose.SetActive(true);
+                isResetting = true;
+            }
+        }
+        if (isTimeInRange5 && playerSequence.Count == Gen5.Length)
+        {
+            bool isCorrect = true;
+            for (int i = 0; i < Gen5.Length; i++)
+            {
+                if (playerSequence[i] != Gen5[i])
                 {
                     isCorrect = false;
                     break;

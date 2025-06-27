@@ -68,6 +68,9 @@ public class EventController : MonoBehaviour
             case EventType.Bandit:
                 Debug.Log("触发盗贼事件");
                 break;
+            case EventType.Treasure:
+                Debug.Log("触发宝藏事件");
+                break;
         }
     }
 }

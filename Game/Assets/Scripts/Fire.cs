@@ -6,6 +6,7 @@ public class Fire : MonoBehaviour
 {
     int fire = 0;
     int water = 0;
+    int money = 0;
     bool OntriggerWater = false;
 
 
@@ -22,6 +23,7 @@ public class Fire : MonoBehaviour
             {
                 Destroy(collision.gameObject);
                 water -= 1;
+                money += 10;
                 Debug.Log("Ãð»ð");
             }
             else if(water ==0)
@@ -52,8 +54,9 @@ public class Fire : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.skin.label.fontSize = 50;
-        GUI.Label(new Rect(20, 20, 500, 500), "leave water:" + water);
+        GUI.skin.label.fontSize = 30;
+        GUI.Label(new Rect(20, 20, 500, 500), "Ê£ÓàË®Ô´:" + water+"Í°");
+        GUI.Label(new Rect(20, 50, 500, 500), "Í­Ç®:" + money + "´®");
 
 
     }
