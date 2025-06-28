@@ -1906,7 +1906,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.838722, y: 4.98054, z: -10}
+  m_LocalPosition: {x: -23.838335, y: 4.98053, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2238,7 +2238,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.02
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -4291,7 +4291,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1215279745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4313,10 +4313,10 @@ MonoBehaviour:
   Win: {fileID: 1150836687}
   Lose: {fileID: 1983029156}
   tiShiLuo: {fileID: 844156957}
-  tiShi2: {fileID: 0}
-  tiShi3: {fileID: 0}
-  tiShi4: {fileID: 0}
-  tiShi5: {fileID: 0}
+  tiShi2: {fileID: 2043482958}
+  tiShi3: {fileID: 1344594572}
+  tiShi4: {fileID: 1037500433}
+  tiShi5: {fileID: 1767997999}
 --- !u!4 &1215279746
 Transform:
   m_ObjectHideFlags: 0
@@ -5416,7 +5416,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!225 &1601442267
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -7227,7 +7227,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2009684753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8091,6 +8091,14 @@ PrefabInstance:
     - target: {fileID: 5392535201628094024, guid: be30e077ad8e5e749b88497e389f67cc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7920963096196697307, guid: be30e077ad8e5e749b88497e389f67cc, type: 3}
+      propertyPath: dashSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7920963096196697307, guid: be30e077ad8e5e749b88497e389f67cc, type: 3}
+      propertyPath: moveSpeed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

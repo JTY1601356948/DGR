@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Smoke_109_0: -4523955319178275239
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
