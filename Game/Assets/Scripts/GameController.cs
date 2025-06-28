@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour
     private onButton[] Gen4 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi, onButton.QinJi };
     private onButton[] Gen5 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi, onButton.QinJi ,onButton.QinJi};
 
-
+    
     void Start()
     {
         // 初始化按钮事件
@@ -254,6 +254,11 @@ public class GameController : MonoBehaviour
         Win.SetActive(false);
         Lose.SetActive(false);
         tiShiLuo.SetActive(false);
+        tiShi2.SetActive(false);
+        tiShi3.SetActive(false);
+        tiShi4.SetActive(false);
+        tiShi5.SetActive(false);
+
     }
 
     // 按钮事件处理
