@@ -211,16 +211,16 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Scene01
+          m_StringArgument: "\u8FC7\u573A\u52A8\u753B1"
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1995130080}
-        m_TargetAssemblyTypeName: AsyncSceneLoader, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1778544044}
+        m_TargetAssemblyTypeName: SimpleBackgroundMusic, Assembly-CSharp
+        m_MethodName: FadeOutAndDestroy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1304,7 +1304,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundMusic: {fileID: 8300000, guid: 788439521f92f6443b84acb488f3df59, type: 3}
-  volume: 1
+  volume: 0.5
+  fadeDuration: 2
 --- !u!4 &1778544045
 Transform:
   m_ObjectHideFlags: 0
