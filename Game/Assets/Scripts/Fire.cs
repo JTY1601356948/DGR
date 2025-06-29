@@ -1,60 +1,80 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using static EventController;
 
 public class Fire : MonoBehaviour
 {
-    int fire = 0;
+    // 基础属性
     int water = 0;
-    int money = 0;
-    int chance = 3;
     int firenumber = 0;
     bool OntriggerWater = false;
-    private bool isGameOver = false; // 新增游戏状态标志
+    private bool isGameOver = false;
     public GameObject GameOverPanel;
     public GameObject GameOverFire;
+    public GameObject GameOverTianGui;
 
+    // 火灾相关计时与状态
     private float resetTimer = 0f;
     private bool isResetting = false;
     private float LeaveFireTime = 0f;
 
-    // 音效相关变量
-    public AudioClip fireSound;        // 着火音效，需在Unity编辑器中赋值
-    public AudioClip waterSound;       // 泼水音效，需在Unity编辑器中赋值
-    public float minVolume = 0.2f;     // 最小音量
-    public float maxVolume = 1.0f;     // 最大音量
-    public float maxDistance = 20f;    // 最大影响距离
+    // 音效
+    public AudioClip fireSound;
+    public AudioClip waterSound;
+    public AudioClip collectWaterSound; // 接水音效
+    public AudioClip destroyXiaoTouSound; // 摧毁小偷音效
     private AudioSource fireAudioSource;
     private AudioSource waterAudioSource;
-    private Transform playerTransform; // 玩家位置（用于计算音量）
+    private AudioSource collectWaterAudioSource;
+    private AudioSource destroyXiaoTouAudioSource;
+
+    // 天鬼相关逻辑
+    private bool isInTianGuiCollision = false;
+    private float stayTimeInTianGui = 0f;
+
+    // 小偷相关逻辑
+    private bool isInXiaoTouCollision = false; // 新增：是否在小偷碰撞区域
+    private float stayTimeInXiaoTou = 0f;      // 新增：在小偷区域停留时间
 
     private void Start()
     {
         // 初始化音效组件
         SetupFireSound();
         SetupWaterSound();
-
-        // 获取玩家位置引用（假设玩家有"Player"标签）
-        playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
+        SetupCollectWaterSound();
+        SetupDestroyXiaoTouSound(); // 新增：初始化摧毁小偷音效
     }
 
     private void SetupFireSound()
     {
-        // 创建着火音效源组件
         fireAudioSource = gameObject.AddComponent<AudioSource>();
         fireAudioSource.clip = fireSound;
-        fireAudioSource.loop = true;    // 循环播放
-        fireAudioSource.volume = 0;     // 初始静音
+        fireAudioSource.loop = true;
         fireAudioSource.playOnAwake = false;
     }
 
     private void SetupWaterSound()
     {
-        // 创建泼水音效源组件
         waterAudioSource = gameObject.AddComponent<AudioSource>();
         waterAudioSource.clip = waterSound;
-        waterAudioSource.loop = false;  // 不循环
+        waterAudioSource.loop = false;
         waterAudioSource.playOnAwake = false;
+    }
+
+    private void SetupCollectWaterSound()
+    {
+        collectWaterAudioSource = gameObject.AddComponent<AudioSource>();
+        collectWaterAudioSource.clip = collectWaterSound;
+        collectWaterAudioSource.loop = false;
+        collectWaterAudioSource.playOnAwake = false;
+    }
+
+    // 新增：初始化摧毁小偷音效
+    private void SetupDestroyXiaoTouSound()
+    {
+        destroyXiaoTouAudioSource = gameObject.AddComponent<AudioSource>();
+        destroyXiaoTouAudioSource.clip = destroyXiaoTouSound;
+        destroyXiaoTouAudioSource.loop = false;
+        destroyXiaoTouAudioSource.playOnAwake = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -63,28 +83,62 @@ public class Fire : MonoBehaviour
         {
             OntriggerWater = true;
         }
-        if (collision.CompareTag("FireCollision"))
+        else if (collision.CompareTag("FireCollision"))
         {
             firenumber += 1;
             isResetting = true;
         }
-        if (collision.CompareTag("Fire"))
+        else if (collision.CompareTag("Fire"))
         {
             if (water > 0)
             {
-                // 播放泼水音效
-                PlayWaterSound();
-
+                waterAudioSource.Play();
                 Destroy(collision.gameObject);
                 LeaveFireTime = 0;
                 water -= 1;
                 isResetting = false;
                 firenumber -= 1;
             }
-            else if (water == 0)
+            else
             {
                 Debug.Log("请寻找水源");
             }
+        }
+        else if (collision.CompareTag("TianGui"))
+        {
+            GameOverPanel.SetActive(true);
+            GameOverTianGui.SetActive(true);
+        }
+        else if (collision.CompareTag("TianGuiCollision"))
+        {
+            isInTianGuiCollision = true;
+            stayTimeInTianGui = 0f;
+            Debug.Log("进入天鬼碰撞区域");
+        }
+        else if (collision.CompareTag("XiaoTouCollision"))
+        {
+            isInXiaoTouCollision = true; // 新增：标记进入小偷碰撞区域
+            stayTimeInXiaoTou = 0f;      // 新增：重置小偷区域计时器
+            Debug.Log("进入小偷碰撞区域");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Water"))
+        {
+            OntriggerWater = false;
+        }
+        else if (collision.CompareTag("TianGuiCollision"))
+        {
+            isInTianGuiCollision = false;
+            stayTimeInTianGui = 0f;
+        }
+        else if (collision.CompareTag("XiaoTouCollision"))
+        {
+            isInXiaoTouCollision = false; // 新增：标记离开小偷碰撞区域
+            stayTimeInXiaoTou = 0f;      // 新增：重置小偷区域计时器
+            Debug.Log("离开小偷碰撞区域");
         }
     }
 
@@ -94,21 +148,23 @@ public class Fire : MonoBehaviour
         {
             LeaveFireTime += Time.deltaTime;
 
-            // 控制着火音效播放
-            ControlFireSound();
+            if (!fireAudioSource.isPlaying && LeaveFireTime > 0)
+            {
+                fireAudioSource.Play();
+            }
 
             if (LeaveFireTime >= 20f && firenumber > 0)
             {
                 chance -= 100;
             }
         }
-        else if (fireAudioSource != null && fireAudioSource.isPlaying)
+        else if (fireAudioSource.isPlaying)
         {
-            // 停止着火音效
             fireAudioSource.Stop();
         }
     }
 
+    int chance = 3;
     void chanceCheck()
     {
         if (chance <= 0 && !isGameOver)
@@ -120,7 +176,6 @@ public class Fire : MonoBehaviour
 
     void GameOver()
     {
-        // 暂停游戏（可选）
         Time.timeScale = 0f;
         Debug.Log("游戏失败！");
         ShowGameOverUI();
@@ -130,64 +185,6 @@ public class Fire : MonoBehaviour
     {
         GameOverPanel.SetActive(true);
         GameOverFire.SetActive(true);
-        
-    }
-
-    void ControlFireSound()
-    {
-        if (LeaveFireTime > 0)
-        {
-            // 计算音量（基于燃烧时间和距离）
-            float volume = CalculateFireSoundVolume();
-
-            // 播放音效（如果未播放）
-            if (!fireAudioSource.isPlaying)
-            {
-                fireAudioSource.Play();
-            }
-
-            // 更新音量
-            fireAudioSource.volume = volume;
-        }
-    }
-
-    void PlayWaterSound()
-    {
-        if (waterAudioSource && waterSound)
-        {
-            // 计算音量（基于距离）
-            float volume = 1f;
-            if (playerTransform != null)
-            {
-                float distance = Vector3.Distance(transform.position, playerTransform.position);
-                volume = Mathf.Clamp01(1 - (distance / maxDistance));
-            }
-
-            waterAudioSource.volume = volume;
-            waterAudioSource.Play();
-        }
-    }
-
-    float CalculateFireSoundVolume()
-    {
-        // 基础音量（随燃烧时间增长）
-        float timeFactor = Mathf.Clamp01(LeaveFireTime / 20f);
-        float baseVolume = Mathf.Lerp(minVolume, maxVolume, timeFactor);
-
-        // 距离衰减（如果有玩家位置）
-        if (playerTransform != null)
-        {
-            float distance = Vector3.Distance(transform.position, playerTransform.position);
-            float distanceFactor = Mathf.Clamp01(1 - (distance / maxDistance));
-            return baseVolume * distanceFactor;
-        }
-
-        return baseVolume;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        OntriggerWater = false;
     }
 
     void Update()
@@ -198,15 +195,78 @@ public class Fire : MonoBehaviour
             if (water > 1)
                 water = 1;
             Debug.Log("接水");
+
+            if (collectWaterAudioSource && collectWaterSound)
+            {
+                collectWaterAudioSource.Play();
+            }
         }
+
         chanceCheck();
         HandleResetTimer();
+
+        if (isInTianGuiCollision)
+        {
+            stayTimeInTianGui += Time.deltaTime;
+            Debug.Log($"在天鬼区域停留时间: {stayTimeInTianGui:F1} 秒");
+
+            if (stayTimeInTianGui >= 5f)
+            {
+                DestroyTianGui();
+            }
+        }
+
+        // 新增：小偷摧毁逻辑
+        if (isInXiaoTouCollision)
+        {
+            // 显示在小偷区域的停留时间（可选）
+            stayTimeInXiaoTou += Time.deltaTime;
+            Debug.Log($"在小偷区域停留时间: {stayTimeInXiaoTou:F1} 秒");
+
+            // 检测F键按下
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                DestroyXiaoTou();
+            }
+        }
     }
 
-    private void OnGUI()
+    void DestroyTianGui()
     {
-        GUI.skin.label.fontSize = 30;
-        GUI.Label(new Rect(20, 20, 500, 500), "剩余水源:" + water + "桶");
-        GUI.Label(new Rect(20, 50, 500, 500), "resettime+chance" + LeaveFireTime + "+" + chance);
+        GameObject tianGui = GameObject.FindWithTag("TianGui");
+        if (tianGui != null)
+        {
+            Destroy(tianGui);
+            isInTianGuiCollision = false;
+            stayTimeInTianGui = 0f;
+            Debug.Log("成功摧毁标签为 'TianGui' 的对象！");
+        }
+        else
+        {
+            Debug.LogError("找不到标签为 'TianGui' 的对象！");
+        }
+    }
+
+    // 新增：摧毁小偷的方法
+    void DestroyXiaoTou()
+    {
+        GameObject xiaoTou = GameObject.FindWithTag("XiaoTou");
+        if (xiaoTou != null)
+        {
+            // 播放摧毁音效（可选）
+            if (destroyXiaoTouAudioSource && destroyXiaoTouSound)
+            {
+                destroyXiaoTouAudioSource.Play();
+            }
+
+            Destroy(xiaoTou);
+            isInXiaoTouCollision = false;
+            stayTimeInXiaoTou = 0f;
+            Debug.Log("成功摧毁标签为 'XiaoTou' 的对象！");
+        }
+        else
+        {
+            Debug.LogError("找不到标签为 'XiaoTou' 的对象！");
+        }
     }
 }

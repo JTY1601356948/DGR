@@ -9,6 +9,7 @@ public enum onButton
     ZhongJi,
     QinJi
 }
+
 public class GameController : MonoBehaviour
 {
     // TimeLog 相关变量
@@ -35,20 +36,20 @@ public class GameController : MonoBehaviour
     public GameObject GameOverPanel;
     public GameObject GameOverLose;
     public GameObject GameOverWin;
+    public GameObject Alarm;
 
     [Header("游戏逻辑")]
     private List<onButton> playerSequence = new List<onButton>();
     private float resetTimer = 0f;
     private bool isResetting = false;
     private int winNum = 0;
-    private onButton[] LuoGen = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.ZhongJi ,onButton.QinJi};
-    private onButton[] Gen2 = new onButton[] { onButton.QinJi, onButton.QinJi, onButton.QinJi, onButton.QinJi ,onButton.QinJi};
+    private onButton[] LuoGen = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.ZhongJi, onButton.QinJi };
+    private onButton[] Gen2 = new onButton[] { onButton.QinJi, onButton.QinJi, onButton.QinJi, onButton.QinJi, onButton.QinJi };
     private onButton[] Gen3 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi };
     private onButton[] Gen4 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi, onButton.QinJi };
-    private onButton[] Gen5 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi, onButton.QinJi ,onButton.QinJi};
+    private onButton[] Gen5 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi, onButton.QinJi, onButton.QinJi };
 
 
-    
     void Start()
     {
         // 初始化按钮事件
@@ -63,7 +64,6 @@ public class GameController : MonoBehaviour
         tiShi3.SetActive(false);
         tiShi4.SetActive(false);
         tiShi5.SetActive(false);
-
     }
 
     void Update()
@@ -77,31 +77,26 @@ public class GameController : MonoBehaviour
         ValidateSequence();
         HandleResetTimer();
         chanceCheck();
+
+        // 持续更新 Alarm 状态
+        UpdateAlarmState();
     }
 
     void NowTime()
     {
         accumulator += Time.deltaTime * 3;
-        int newMinutes = (45+(int)accumulator) % 60;
-        int newHours = 18 + ((int)accumulator+45) / 60;
+        int newMinutes = (45 + (int)accumulator) % 60;
+        int newHours = 18 + ((int)accumulator + 45) / 60;
         if (newHours >= 24) newHours -= 24;
 
         hours = newHours;
         minutes = newMinutes;
     }
 
-    //void NowTime()
-    //{
-    //    int intTime = (int)(Time.time)*3;
-    //    hours = 18 + (intTime + 45) / 60;
-    //    if (hours >= 24) hours -= 24;
-    //    minutes = (45 + intTime) % 60;
-    //}
-
     void chanceCheck()
     {
         float totalMinutes = hours * 60 + minutes;
-        if (chance<1&&totalMinutes>1155)
+        if (chance < 1 && totalMinutes > 1155)
         {
             GameOverPanel.SetActive(true);
             GameOverLose.SetActive(true);
@@ -126,7 +121,7 @@ public class GameController : MonoBehaviour
             GameOverPanel.SetActive(true);
             GameOverLose.SetActive(true);
         }
-        if(chance>=5&&totalMinutes>1635)
+        if (chance >= 5 && totalMinutes > 1635)
         {
             GameOverPanel.SetActive(true);
             GameOverWin.SetActive(true);
@@ -192,8 +187,8 @@ public class GameController : MonoBehaviour
             {
                 Win.SetActive(true);
                 chance += 1;
-                if(chance>1)
-                    { chance = 1; }
+                if (chance > 1)
+                { chance = 1; }
                 isResetting = true;
             }
             else
@@ -228,7 +223,7 @@ public class GameController : MonoBehaviour
                 isResetting = true;
             }
         }
-        if (isTimeInRange3&& playerSequence.Count == Gen3.Length)
+        if (isTimeInRange3 && playerSequence.Count == Gen3.Length)
         {
             bool isCorrect = true;
             for (int i = 0; i < Gen3.Length; i++)
@@ -333,7 +328,6 @@ public class GameController : MonoBehaviour
         tiShi3.SetActive(false);
         tiShi4.SetActive(false);
         tiShi5.SetActive(false);
-
     }
 
     // 按钮事件处理
@@ -344,5 +338,40 @@ public class GameController : MonoBehaviour
     {
         playerSequence.Add(button);
         Debug.Log("当前输入序列: " + string.Join(", ", playerSequence));
+    }
+
+    void UpdateAlarmState()
+    {
+        float totalMinutes = hours * 60 + minutes;
+        bool isTimeInRangeLuo = totalMinutes >= 1125 && totalMinutes <= 1155;
+        bool isTimeInRange2 = totalMinutes >= 1245 && totalMinutes <= 1275;
+        bool isTimeInRange3 = totalMinutes >= 1365 && totalMinutes <= 1395;
+        bool isTimeInRange4 = totalMinutes >= 1485 && totalMinutes <= 1515;
+        bool isTimeInRange5 = totalMinutes >= 1605 && totalMinutes <= 1635;
+
+        bool alarmShouldActive = false;
+        if (isTimeInRangeLuo && chance < 1)
+        {
+            alarmShouldActive = true;
+        }
+        else if (isTimeInRange2 && chance < 2)
+        {
+            alarmShouldActive = true;
+        }
+        else if (isTimeInRange3 && chance < 3)
+        {
+            alarmShouldActive = true;
+        }
+        else if (isTimeInRange4 && chance < 4)
+        {
+            alarmShouldActive = true;
+        }
+        else if (isTimeInRange5 && chance < 5)
+        {
+            alarmShouldActive = true;
+        }
+
+        Debug.Log($"UpdateAlarmState: chance={chance}, isTimeInRange2={isTimeInRange2}, alarmShouldActive={alarmShouldActive}");
+        Alarm.SetActive(alarmShouldActive);
     }
 }
