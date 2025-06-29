@@ -1,33 +1,37 @@
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static EventController;
 
 public class Fire : MonoBehaviour
 {
     int fire = 0;
     int water = 0;
-    public static int money = 0;
+    int money = 0;
+    int chance = 3;
     bool OntriggerWater = false;
+    private bool isGameOver = false; // 新增游戏状态标志
+    public GameObject GameOverPanel;
 
-    public GameObject TiShiTianGui;
-    public GameObject TiShiFire;
-    public GameObject TiShiFireKill;
     private float resetTimer = 0f;
     private bool isResetting = false;
     private float LeaveFireTime = 0f;
 
+    private void Start()
+    {
+        GameOverPanel.SetActive(false);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        TiShiTianGui.SetActive(false);
-        TiShiFire.SetActive(false);
-        TiShiFireKill.SetActive(false);
+
         if(collision.CompareTag("Water"))
         {
             OntriggerWater = true;
         }
         if(collision.CompareTag("FireCollision"))
         {
-            TiShiFire.SetActive(true);
+            
             isResetting = true;
         }
         if (collision.CompareTag("Fire"))
@@ -38,7 +42,6 @@ public class Fire : MonoBehaviour
                 Destroy(collision.gameObject);
                 water -= 1;
                 money += 10;
-                TiShiFireKill.SetActive(true);
             }
             else if(water ==0)
             {
@@ -47,41 +50,43 @@ public class Fire : MonoBehaviour
 
         }
 
-        if (collision.CompareTag("TianGui"))
-        {
-            TiShiTianGui.SetActive(true);
-            isResetting = true;
-        }
+
     }
 
     void HandleResetTimer()
     {
         if (isResetting)
         {
-            resetTimer += Time.deltaTime;
-            //LeaveFireTime += Time.deltaTime;
-            if (resetTimer >= 3f)
+
+            LeaveFireTime += Time.deltaTime;
+            if(LeaveFireTime>=30f)
             {
-                ResetGame();
-                isResetting = false;
-                resetTimer = 0f;
-            }
-            if(resetTimer>=20f)
-            {
-                money -= 100;
+                chance -= 100;
             }
         }
     }
 
-
-    
-
-
-    void ResetGame()
+    void chanceCheck()
     {
-        TiShiTianGui.SetActive(false);
-        TiShiFire.SetActive(false) ;
+            if (chance <= 0 && !isGameOver)
+            {
+                isGameOver = true;
+                GameOver();
+            }
+
     }
+    void GameOver()
+    {
+        // 暂停游戏（可选）
+        Time.timeScale = 0f;
+        Debug.Log("游戏失败！");
+        ShowGameOverUI();
+    }
+    void ShowGameOverUI()
+    {
+        GameOverPanel.SetActive(true);
+    }
+
 
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -97,16 +102,16 @@ public class Fire : MonoBehaviour
                 water = 1;
             Debug.Log("接水");
         }
+        chanceCheck();
 
-
+        HandleResetTimer();
     }
 
     private void OnGUI()
     {
         GUI.skin.label.fontSize = 30;
         GUI.Label(new Rect(20, 20, 500, 500), "剩余水源:" + water+"桶");
-        GUI.Label(new Rect(20, 50, 500, 500), "铜钱:" + money + "串");
-
+        GUI.Label(new Rect(20, 50, 500, 500), "resettime+chance"+LeaveFireTime+"+"+chance);
 
     }
 }

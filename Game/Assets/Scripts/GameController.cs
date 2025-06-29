@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public int minutes = 45;
     public int hours = 18;
     private string shiKe;
+    float accumulator = 0f;
 
     // ButtonClick 相关变量
     [Header("按钮和弹窗")]
@@ -53,6 +54,10 @@ public class GameController : MonoBehaviour
         Win.SetActive(false);
         Lose.SetActive(false);
         tiShiLuo.SetActive(false);
+        tiShi2.SetActive(false);
+        tiShi3.SetActive(false);
+        tiShi4.SetActive(false);
+        tiShi5.SetActive(false);
     }
 
     void Update()
@@ -69,11 +74,22 @@ public class GameController : MonoBehaviour
 
     void NowTime()
     {
-        int intTime = (int)Time.time;
-        hours = 18 + (intTime + 45) / 60;
-        if (hours >= 24) hours -= 24;
-        minutes = (45 + intTime) % 60;
+        accumulator += Time.deltaTime * 3;
+        int newMinutes = (45+(int)accumulator) % 60;
+        int newHours = 18 + ((int)accumulator+45) / 60;
+        if (newHours >= 24) newHours -= 24;
+
+        hours = newHours;
+        minutes = newMinutes;
     }
+
+    //void NowTime()
+    //{
+    //    int intTime = (int)(Time.time)*3;
+    //    hours = 18 + (intTime + 45) / 60;
+    //    if (hours >= 24) hours -= 24;
+    //    minutes = (45 + intTime) % 60;
+    //}
 
     void Shike()
     {
