@@ -33,6 +33,8 @@ public class GameController : MonoBehaviour
     public GameObject tiShi4;
     public GameObject tiShi5;
     public GameObject GameOverPanel;
+    public GameObject GameOverLose;
+    public GameObject GameOverWin;
 
     [Header("ÓÎÏ·Âß¼­")]
     private List<onButton> playerSequence = new List<onButton>();
@@ -102,22 +104,33 @@ public class GameController : MonoBehaviour
         if (chance<1&&totalMinutes>1155)
         {
             GameOverPanel.SetActive(true);
+            GameOverLose.SetActive(true);
         }
         if (chance < 2 && totalMinutes > 1275)
         {
             GameOverPanel.SetActive(true);
+            GameOverLose.SetActive(true);
         }
         if (chance < 3 && totalMinutes > 1395)
         {
             GameOverPanel.SetActive(true);
+            GameOverLose.SetActive(true);
         }
         if (chance < 4 && totalMinutes > 1515)
         {
             GameOverPanel.SetActive(true);
+            GameOverLose.SetActive(true);
         }
         if (chance < 5 && totalMinutes > 1635)
         {
             GameOverPanel.SetActive(true);
+            GameOverLose.SetActive(true);
+        }
+        if(chance>=5&&totalMinutes>1635)
+        {
+            GameOverPanel.SetActive(true);
+            GameOverWin.SetActive(true);
+
         }
     }
 

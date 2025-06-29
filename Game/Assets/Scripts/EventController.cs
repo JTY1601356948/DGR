@@ -24,12 +24,59 @@ public class EventController : MonoBehaviour
     public float spawnRadius = 1f;
     public LayerMask obstacleLayer;
 
+    [Header("刷新设置")]
+    public float refreshInterval = 60f; // 刷新间隔（秒）
+    private float timer = 0f;           // 计时器
+    private GameObject currentEvent;    // 当前事件实例
+
     void Start()
+    {
+        // 初始触发事件
+        SpawnEvent();
+
+        // 初始化计时器
+        timer = refreshInterval;
+    }
+
+    void Update()
+    {
+        // 更新计时器
+        timer -= Time.deltaTime;
+
+        // 时间到则刷新事件
+        if (timer <= 0)
+        {
+            RefreshEvent();
+        }
+    }
+
+    private void RefreshEvent()
+    {
+        // 清除当前事件
+        ClearCurrentEvent();
+
+        // 生成新事件
+        SpawnEvent();
+
+        // 重置计时器
+        timer = refreshInterval;
+    }
+
+    private void SpawnEvent()
     {
         SpawnPointConfig selectedPoint = GetRandomValidPoint();
         if (selectedPoint != null && selectedPoint.eventType != EventType.None)
         {
-            ExecuteEvent(selectedPoint);
+            currentEvent = ExecuteEvent(selectedPoint);
+        }
+    }
+
+    private void ClearCurrentEvent()
+    {
+        if (currentEvent != null)
+        {
+            Destroy(currentEvent);
+            currentEvent = null;
         }
     }
 
@@ -52,11 +99,13 @@ public class EventController : MonoBehaviour
         return hit != null;
     }
 
-    private void ExecuteEvent(SpawnPointConfig config)
+    private GameObject ExecuteEvent(SpawnPointConfig config)
     {
+        GameObject instance = null;
+
         if (config.prefab != null)
         {
-            Instantiate(config.prefab, config.position.position, Quaternion.identity);
+            instance = Instantiate(config.prefab, config.position.position, Quaternion.identity);
         }
 
         // 如果需要独立事件逻辑，可在此添加：
@@ -72,5 +121,7 @@ public class EventController : MonoBehaviour
                 Debug.Log("触发宝藏事件");
                 break;
         }
+
+        return instance;
     }
 }
