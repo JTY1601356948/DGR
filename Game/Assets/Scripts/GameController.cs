@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     public int hours = 18;
     private string shiKe;
     float accumulator = 0f;
+    int chance = 0;
 
     // ButtonClick 相关变量
     [Header("按钮和弹窗")]
@@ -31,6 +32,7 @@ public class GameController : MonoBehaviour
     public GameObject tiShi3;
     public GameObject tiShi4;
     public GameObject tiShi5;
+    public GameObject GameOverPanel;
 
     [Header("游戏逻辑")]
     private List<onButton> playerSequence = new List<onButton>();
@@ -42,6 +44,7 @@ public class GameController : MonoBehaviour
     private onButton[] Gen3 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi };
     private onButton[] Gen4 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi, onButton.QinJi };
     private onButton[] Gen5 = new onButton[] { onButton.ZhongJi, onButton.QinJi, onButton.QinJi, onButton.QinJi ,onButton.QinJi};
+
 
     
     void Start()
@@ -58,6 +61,7 @@ public class GameController : MonoBehaviour
         tiShi3.SetActive(false);
         tiShi4.SetActive(false);
         tiShi5.SetActive(false);
+
     }
 
     void Update()
@@ -70,6 +74,7 @@ public class GameController : MonoBehaviour
         // 按钮验证逻辑
         ValidateSequence();
         HandleResetTimer();
+        chanceCheck();
     }
 
     void NowTime()
@@ -90,6 +95,31 @@ public class GameController : MonoBehaviour
     //    if (hours >= 24) hours -= 24;
     //    minutes = (45 + intTime) % 60;
     //}
+
+    void chanceCheck()
+    {
+        float totalMinutes = hours * 60 + minutes;
+        if (chance<1&&totalMinutes>1155)
+        {
+            GameOverPanel.SetActive(true);
+        }
+        if (chance < 2 && totalMinutes > 1275)
+        {
+            GameOverPanel.SetActive(true);
+        }
+        if (chance < 3 && totalMinutes > 1395)
+        {
+            GameOverPanel.SetActive(true);
+        }
+        if (chance < 4 && totalMinutes > 1515)
+        {
+            GameOverPanel.SetActive(true);
+        }
+        if (chance < 5 && totalMinutes > 1635)
+        {
+            GameOverPanel.SetActive(true);
+        }
+    }
 
     void Shike()
     {
@@ -148,6 +178,9 @@ public class GameController : MonoBehaviour
             if (isCorrect)
             {
                 Win.SetActive(true);
+                chance += 1;
+                if(chance>1)
+                    { chance = 1; }
                 isResetting = true;
             }
             else
@@ -171,6 +204,9 @@ public class GameController : MonoBehaviour
             if (isCorrect)
             {
                 Win.SetActive(true);
+                chance += 1;
+                if (chance > 2)
+                { chance = 2; }
                 isResetting = true;
             }
             else
@@ -194,6 +230,9 @@ public class GameController : MonoBehaviour
             if (isCorrect)
             {
                 Win.SetActive(true);
+                chance += 1;
+                if (chance > 3)
+                { chance = 3; }
                 isResetting = true;
             }
             else
@@ -217,6 +256,9 @@ public class GameController : MonoBehaviour
             if (isCorrect)
             {
                 Win.SetActive(true);
+                chance += 1;
+                if (chance > 4)
+                { chance = 4; }
                 isResetting = true;
             }
             else
@@ -240,6 +282,9 @@ public class GameController : MonoBehaviour
             if (isCorrect)
             {
                 Win.SetActive(true);
+                chance += 1;
+                if (chance > 5)
+                { chance = 5; }
                 isResetting = true;
             }
             else
@@ -249,6 +294,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
 
     void HandleResetTimer()
     {

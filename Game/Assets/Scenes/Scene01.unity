@@ -9423,6 +9423,7 @@ MonoBehaviour:
   tiShi3: {fileID: 1344594572}
   tiShi4: {fileID: 1037500433}
   tiShi5: {fileID: 1767997999}
+  GameOverPanel: {fileID: 1325935287}
 --- !u!4 &1215279746
 Transform:
   m_ObjectHideFlags: 0

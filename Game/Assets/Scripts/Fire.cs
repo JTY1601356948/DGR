@@ -9,6 +9,7 @@ public class Fire : MonoBehaviour
     int water = 0;
     int money = 0;
     int chance = 3;
+    int firenumber = 0;
     bool OntriggerWater = false;
     private bool isGameOver = false; // 新增游戏状态标志
     public GameObject GameOverPanel;
@@ -19,7 +20,7 @@ public class Fire : MonoBehaviour
 
     private void Start()
     {
-        GameOverPanel.SetActive(false);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,7 +32,7 @@ public class Fire : MonoBehaviour
         }
         if(collision.CompareTag("FireCollision"))
         {
-            
+            firenumber += 1;
             isResetting = true;
         }
         if (collision.CompareTag("Fire"))
@@ -41,7 +42,7 @@ public class Fire : MonoBehaviour
             {
                 Destroy(collision.gameObject);
                 water -= 1;
-                money += 10;
+                firenumber-=1;
             }
             else if(water ==0)
             {
@@ -59,7 +60,7 @@ public class Fire : MonoBehaviour
         {
 
             LeaveFireTime += Time.deltaTime;
-            if(LeaveFireTime>=30f)
+            if (LeaveFireTime >= 20f && firenumber > 0)
             {
                 chance -= 100;
             }
