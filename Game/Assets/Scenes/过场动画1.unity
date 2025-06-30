@@ -4730,8 +4730,8 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: e128d402062baac4c8109fb7095a200f, type: 3}
   m_Resource: {fileID: 8300000, guid: e128d402062baac4c8109fb7095a200f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.058
-  m_Pitch: 1
+  m_Volume: 0.08
+  m_Pitch: 0.9
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -4740,7 +4740,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: 0
+  Pan2D: 0.17
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -4774,7 +4774,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.285
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -6723,7 +6723,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4.1
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -6748,7 +6748,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.2954893, y: 3.43393, z: -10}
+  m_LocalPosition: {x: -29.22549, y: 4.69393, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10972,7 +10972,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc035cb03f8dd264e8c3a85c08c4906c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTeleport: {fileID: 1937816413}
 --- !u!212 &855479108
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17202,7 +17201,7 @@ Transform:
   m_GameObject: {fileID: 1654592643}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.810001, y: -1.0986586, z: -9.787649}
+  m_LocalPosition: {x: -1.1200008, y: 0.16134167, z: -9.787649}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
