@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
     public GameObject GameOverLose;
     public GameObject GameOverWin;
     public GameObject Alarm;
+    public GameObject GoTo2;
 
     [Header("ÓÎÏ·Âß¼­")]
     private List<onButton> playerSequence = new List<onButton>();
@@ -125,6 +126,7 @@ public class GameController : MonoBehaviour
         {
             GameOverPanel.SetActive(true);
             GameOverWin.SetActive(true);
+            GoTo2.SetActive(true);
 
         }
     }
