@@ -96,32 +96,32 @@ public class GameController : MonoBehaviour
     void chanceCheck()
     {
         float totalMinutes = hours * 60 + minutes;
-        if (chance < 1 && totalMinutes > 1155)
+        if (chance < 1 && totalMinutes > 1185)
         {
             GameOverPanel.SetActive(true);
             GameOverLose.SetActive(true);
         }
-        if (chance < 2 && totalMinutes > 1275)
+        if (chance < 2 && totalMinutes > 1305)
         {
             GameOverPanel.SetActive(true);
             GameOverLose.SetActive(true);
         }
-        if (chance < 3 && totalMinutes > 1395)
+        if (chance < 3 && totalMinutes > 1425)
         {
             GameOverPanel.SetActive(true);
             GameOverLose.SetActive(true);
         }
-        if (chance < 4 && totalMinutes > 1515)
+        if (chance < 4 && totalMinutes > 1545)
         {
             GameOverPanel.SetActive(true);
             GameOverLose.SetActive(true);
         }
-        if (chance < 5 && totalMinutes > 1635)
+        if (chance < 5 && totalMinutes > 1665)
         {
             GameOverPanel.SetActive(true);
             GameOverLose.SetActive(true);
         }
-        if (chance >= 5 && totalMinutes > 1635)
+        if (chance >= 5 && totalMinutes > 1665)
         {
             GameOverPanel.SetActive(true);
             GameOverWin.SetActive(true);
@@ -158,11 +158,11 @@ public class GameController : MonoBehaviour
     void ValidateSequence()
     {
         float totalMinutes = hours * 60 + minutes;
-        bool isTimeInRangeLuo = totalMinutes >= 1125 && totalMinutes <= 1155; // 18:45 ~ 19:15
-        bool isTimeInRange2 = totalMinutes >= 1245 && totalMinutes <= 1275;
-        bool isTimeInRange3 = totalMinutes >= 1365 && totalMinutes <= 1395;
-        bool isTimeInRange4 = totalMinutes >= 1485 && totalMinutes <= 1515;
-        bool isTimeInRange5 = totalMinutes >= 1605 && totalMinutes <= 1635;
+        bool isTimeInRangeLuo = totalMinutes >= 1125 && totalMinutes <= 1185; // 18:45 ~ 19:45
+        bool isTimeInRange2 = totalMinutes >= 1245 && totalMinutes <= 1305;
+        bool isTimeInRange3 = totalMinutes >= 1365 && totalMinutes <= 1425;
+        bool isTimeInRange4 = totalMinutes >= 1485 && totalMinutes <= 1545;
+        bool isTimeInRange5 = totalMinutes >= 1605 && totalMinutes <= 1665;
 
         tiShiLuo.SetActive(isTimeInRangeLuo);
         tiShi2.SetActive(isTimeInRange2);
