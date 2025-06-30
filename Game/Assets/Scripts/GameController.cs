@@ -301,6 +301,32 @@ public class GameController : MonoBehaviour
                 isResetting = true;
             }
         }
+        bool alarmShouldActive = false;
+        if (isTimeInRangeLuo && chance < 1)
+        {
+            alarmShouldActive = true;
+        }
+        else if (isTimeInRange2 && chance < 2)
+        {
+            alarmShouldActive = true;
+        }
+        else if (isTimeInRange3 && chance < 3)
+        {
+            alarmShouldActive = true;
+        }
+        else if (isTimeInRange4 && chance < 4)
+        {
+            alarmShouldActive = true;
+        }
+        else if (isTimeInRange5 && chance < 5)
+        {
+            alarmShouldActive = true;
+        }
+        else
+        {
+            alarmShouldActive=false;
+        }
+        Alarm.SetActive(alarmShouldActive);
     }
 
 
@@ -349,29 +375,6 @@ public class GameController : MonoBehaviour
         bool isTimeInRange4 = totalMinutes >= 1485 && totalMinutes <= 1515;
         bool isTimeInRange5 = totalMinutes >= 1605 && totalMinutes <= 1635;
 
-        bool alarmShouldActive = false;
-        if (isTimeInRangeLuo && chance < 1)
-        {
-            alarmShouldActive = true;
-        }
-        else if (isTimeInRange2 && chance < 2)
-        {
-            alarmShouldActive = true;
-        }
-        else if (isTimeInRange3 && chance < 3)
-        {
-            alarmShouldActive = true;
-        }
-        else if (isTimeInRange4 && chance < 4)
-        {
-            alarmShouldActive = true;
-        }
-        else if (isTimeInRange5 && chance < 5)
-        {
-            alarmShouldActive = true;
-        }
-
-        Debug.Log($"UpdateAlarmState: chance={chance}, isTimeInRange2={isTimeInRange2}, alarmShouldActive={alarmShouldActive}");
-        Alarm.SetActive(alarmShouldActive);
+        
     }
 }
