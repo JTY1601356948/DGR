@@ -111,17 +111,17 @@ public class GameController : MonoBehaviour
             GameOverPanel.SetActive(true);
             GameOverLose.SetActive(true);
         }
-        if (chance < 4 && totalMinutes > 1545)
+        if (chance < 4 && (totalMinutes - 75)*(totalMinutes-1000)<0)
         {
             GameOverPanel.SetActive(true);
             GameOverLose.SetActive(true);
         }
-        if (chance < 5 && totalMinutes > 1665)
+        if (chance < 5 && (totalMinutes - 195) * (totalMinutes - 1000) < 0)
         {
             GameOverPanel.SetActive(true);
             GameOverLose.SetActive(true);
         }
-        if (chance >= 5 && totalMinutes > 1665)
+        if (chance >= 5 && (totalMinutes - 195) * (totalMinutes - 1000) < 0)
         {
             GameOverPanel.SetActive(true);
             GameOverWin.SetActive(true);
@@ -161,8 +161,8 @@ public class GameController : MonoBehaviour
         bool isTimeInRangeLuo = totalMinutes >= 1125 && totalMinutes <= 1185; // 18:45 ~ 19:45
         bool isTimeInRange2 = totalMinutes >= 1245 && totalMinutes <= 1305;
         bool isTimeInRange3 = totalMinutes >= 1365 && totalMinutes <= 1425;
-        bool isTimeInRange4 = totalMinutes >= 1485 && totalMinutes <= 1545;
-        bool isTimeInRange5 = totalMinutes >= 1605 && totalMinutes <= 1665;
+        bool isTimeInRange4 = totalMinutes >= 45 && totalMinutes <= 75;
+        bool isTimeInRange5 = totalMinutes >= 165 && totalMinutes <= 195;
 
         tiShiLuo.SetActive(isTimeInRangeLuo);
         tiShi2.SetActive(isTimeInRange2);
@@ -372,8 +372,8 @@ public class GameController : MonoBehaviour
         bool isTimeInRangeLuo = totalMinutes >= 1125 && totalMinutes <= 1155;
         bool isTimeInRange2 = totalMinutes >= 1245 && totalMinutes <= 1275;
         bool isTimeInRange3 = totalMinutes >= 1365 && totalMinutes <= 1395;
-        bool isTimeInRange4 = totalMinutes >= 1485 && totalMinutes <= 1515;
-        bool isTimeInRange5 = totalMinutes >= 1605 && totalMinutes <= 1635;
+        bool isTimeInRange4 = totalMinutes >= 45 && totalMinutes <= 75;
+        bool isTimeInRange5 = totalMinutes >= 165 && totalMinutes <= 195;
 
         
     }
