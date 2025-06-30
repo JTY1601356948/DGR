@@ -26838,7 +26838,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4098064331586379323, guid: dddf6b3a141bb064c8903a53da2ddb59, type: 3}
       propertyPath: m_SortingOrder
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4774699514617902883, guid: dddf6b3a141bb064c8903a53da2ddb59, type: 3}
       propertyPath: m_LocalScale.x
@@ -77395,7 +77395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4098064331586379323, guid: dddf6b3a141bb064c8903a53da2ddb59, type: 3}
       propertyPath: m_SortingOrder
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4774699514617902883, guid: dddf6b3a141bb064c8903a53da2ddb59, type: 3}
       propertyPath: m_LocalScale.x
@@ -106393,7 +106393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tianGuiPrefab: {fileID: 816543926358323061, guid: c16c52796d909794c8d045f3bbafc766, type: 3}
-  spawnYPosition: -73
+  spawnYPosition: -71
   minXPosition: -6
   maxXPosition: 80
   spawnInterval: 20
